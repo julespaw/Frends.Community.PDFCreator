@@ -45,7 +45,12 @@ namespace Frends.Community.PDFWriter.Tests
         [Test]
         public void WritePDF()
         {
-            _pageContent.Text = "Some text for testing";
+            _fileProperties.FileExistsAction = FileExistsActionEnum.Overwrite;
+            _pageContent.Text = @"Some text           for testing
+with some tab
+    one
+        two
+            three";
 
             var result = CallCreatePdf();
 

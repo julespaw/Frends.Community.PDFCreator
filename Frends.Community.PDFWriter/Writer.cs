@@ -187,8 +187,28 @@ namespace Frends.Community.PDFWriter
             if (string.IsNullOrWhiteSpace(pageContent.Text))
                 return;
 
-            var paragraph = section.AddParagraph(pageContent.Text, style.Name);
+            var paragraph = section.AddParagraph();
+            paragraph.Style = style.Name;
             paragraph.Format.Font.Color = Colors.Black;
+
+            //read text line by line
+            string line;
+            using(var reader = new StringReader(pageContent.Text))
+            {
+                while((line = reader.ReadLine()) != null)
+                {
+                    // read text one char at a time, so that multiple whitespaces are added correctly
+                    foreach (var c in line.ToCharArray())
+                    {
+                        if (Char.IsWhiteSpace(c))
+                            paragraph.AddSpace(1);
+                        else
+                            paragraph.AddChar(c, 1);
+                    }
+                    // add newline
+                    paragraph.AddLineBreak();
+                }
+            }
         }
 
         private static void SetFont(Style style, PageContentElement textElement)
