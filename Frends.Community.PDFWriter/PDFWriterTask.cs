@@ -9,7 +9,7 @@ using System.IO;
 
 namespace Frends.Community.PDFWriter
 {
-    public class Writer
+    public class PDFWriterTask
     {
         /// <summary>
         /// Created PDF document from given content. See https://github.com/CommunityHiQ/Frends.Community.PDFWriter

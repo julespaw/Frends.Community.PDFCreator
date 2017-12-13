@@ -7,6 +7,7 @@ Frends task for creating PDF documents
 - [License](#license)
 - [Building](#building)
 - [Contributing](#contributing)
+- [ChangeLog](#changelog)
 
 # Installing
 You can install the task via FRENDS UI Task View or you can find the nuget package from the following nuget feed
@@ -131,3 +132,10 @@ When contributing to this repository, please first discuss the change you wish t
 5. Submit a Pull request so that we can review your changes
 
 NOTE: Be sure to merge the latest from "upstream" before making a pull request!
+
+# Change Log
+
+| Version             | Changes                 |
+| ---------------------| ---------------------|
+| 1.0.0 | Initial version of PDFWriter |
+| 1.1.0 | Fixed bug where multiple whitespaces were trimmed. |

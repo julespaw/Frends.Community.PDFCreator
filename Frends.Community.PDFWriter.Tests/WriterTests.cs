@@ -39,7 +39,7 @@ namespace Frends.Community.PDFWriter.Tests
 
         private Output CallCreatePdf()
         {
-            return Writer.CreatePdf(_fileProperties, _docSettings, new DocumentContent { Contents = new[] { _pageContent } }, _options);
+            return PDFWriterTask.CreatePdf(_fileProperties, _docSettings, new DocumentContent { Contents = new[] { _pageContent } }, _options);
         }
 
         [Test]
