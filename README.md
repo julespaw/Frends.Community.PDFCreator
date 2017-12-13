@@ -7,7 +7,7 @@ Frends task for creating PDF documents
 - [License](#license)
 - [Building](#building)
 - [Contributing](#contributing)
-- [ChangeLog](#changelog)
+- [Change Log](#changelog)
 
 # Installing
 You can install the task via FRENDS UI Task View or you can find the nuget package from the following nuget feed
