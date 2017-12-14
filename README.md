@@ -139,3 +139,4 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 | ---------------------| ---------------------|
 | 1.0.0 | Initial version of PDFWriter |
 | 1.1.0 | Fixed bug where multiple whitespaces were trimmed. |
+| 1.2.0 | Renamed task class to PDFWriterTask, added ChangeLog to README |
