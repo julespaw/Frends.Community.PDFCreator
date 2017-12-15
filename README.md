@@ -141,3 +141,4 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 | 1.1.0 | Fixed bug where multiple whitespaces were trimmed. |
 | 1.2.0 | Renamed task class to PDFWriterTask, added ChangeLog to README |
 | 1.3.0 | Changed Frends.Task.Attributes from 1.2.1 to 1.2.0 because of a bug in the newer version |
+| 1.4.0 | Changed target .net framework to 4.5.2 |
