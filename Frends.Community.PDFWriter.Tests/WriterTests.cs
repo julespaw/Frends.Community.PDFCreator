@@ -25,7 +25,7 @@ namespace Frends.Community.PDFWriter.Tests
             if (!Directory.Exists(_folder))
                 Directory.CreateDirectory(_folder);
 
-            _fileProperties = new FileProperties { Directory = _folder, FileName = _fileName, FileExistsAction = FileExistsActionEnum.Error };
+            _fileProperties = new FileProperties { Directory = _folder, FileName = _fileName, FileExistsAction = FileExistsActionEnum.Error, Unicode = true };
             _docSettings = new DocumentSettings { MarginBottomInCm = 2, MarginLeftInCm = 2.5, MarginRightInCm = 2.5, MarginTopInCm = 2, Orientation = PageOrientationEnum.Portrait, Size = PageSizeEnum.A4 };
             _pageContent = new PageContentElement { ContentType = ElementType.Paragraph, FontFamily = "Times New Roman", FontSize = 11, FontStyle = FontStyleEnum.Regular, LineSpacingInPt = 11, ParagraphAlignment = ParagraphAlignmentEnum.Left, SpacingAfterInPt = 0, SpacingBeforeInPt = 8 };
             _options = new Options { UseGivenCredentials = false, ThrowErrorOnFailure = true };
@@ -50,7 +50,7 @@ namespace Frends.Community.PDFWriter.Tests
 with some tab
     one
         two
-            three";
+            three. Then end with scandic letter ö and russian word код.";
 
             var result = CallCreatePdf();
 

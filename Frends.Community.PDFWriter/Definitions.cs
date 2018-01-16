@@ -37,9 +37,9 @@ namespace Frends.Community.PDFWriter
         public FileExistsActionEnum FileExistsAction { get; set; }
 
         /// <summary>
-        /// Use unicode text
+        /// Use Unicode text (true) or ANSI (false).
         /// </summary>
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool Unicode { get; set; }
 
     }

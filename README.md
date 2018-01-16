@@ -29,7 +29,7 @@ Settings for writing the PDF file.
 | Directory | string | Destination folder for the PDF file created. | C:\Pdf_Output |
 | File name | string | File name for the PDF file created. | my_pdf_file.pdf |
 | File Exists Action | enum {Error, Overwrite, Rename} | What to do if destination file already exists. Error: throw exception. Overwrite: Replaces existing file. Rename: Renames file by adding '\_(1)' to the end. (pdf_file.pdf --> pdf_file\_(1).pdf) |
-| Unicode | bool | If true, Unicode text is used when writing pdf file | false |
+| Unicode | bool | If true, Unicode support and font embedding are enabled. otherwise ANSI characters are supported. Further [documentation](http://www.pdfsharp.net/wiki/Unicode-sample.ashx). | false |
 
 ### Document Settings
 
