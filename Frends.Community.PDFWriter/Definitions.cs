@@ -1,6 +1,5 @@
-﻿using Frends.Tasks.Attributes;
-using System.ComponentModel;
-
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 #pragma warning disable 1591
 
 namespace Frends.Community.PDFWriter
@@ -19,14 +18,14 @@ namespace Frends.Community.PDFWriter
         /// <summary>
         /// PDF document destination Directory
         /// </summary>
-        [DefaultDisplayType(DisplayType.Text)]
+        [DisplayFormat(DataFormatString = "Text")]
         [DefaultValue(@"C:\Output")]
         public string Directory { get; set; }
 
         /// <summary>
         /// Filename for created PDF file
         /// </summary>
-        [DefaultDisplayType(DisplayType.Text)]
+        [DisplayFormat(DataFormatString = "Text")]
         [DefaultValue("example_file.pdf")]
         public string FileName { get; set; }
 
@@ -50,13 +49,13 @@ namespace Frends.Community.PDFWriter
         /// <summary>
         /// Optional PDF document title
         /// </summary>
-        [DefaultDisplayType(DisplayType.Text)]
+        [DisplayFormat(DataFormatString = "Text")]
         public string Title { get; set; }
 
         /// <summary>
         /// Optional PDF document Author
         /// </summary>
-        [DefaultDisplayType(DisplayType.Text)]
+        [DisplayFormat(DataFormatString = "Text")]
         public string Author { get; set; }
 
 
@@ -117,52 +116,52 @@ namespace Frends.Community.PDFWriter
         /// <summary>
         /// Full path to image
         /// </summary>
-        [ConditionalDisplay(nameof(ContentType), ElementType.Image)]
+        [UIHint(nameof(ContentType), "", ElementType.Image)]
         public string ImagePath { get; set; }
 
         /// <summary>
         /// Text written to document
         /// </summary>
-        [ConditionalDisplay(nameof(ContentType), ElementType.Paragraph)]
-        [DefaultDisplayType(DisplayType.Expression)]
+        [UIHint(nameof(ContentType), "", ElementType.Paragraph)]
+        [DisplayFormat(DataFormatString = "Expression")]
         public string Text { get; set; }
 
         /// <summary>
         /// Font family name
         /// </summary>
-        [ConditionalDisplay(nameof(ContentType), ElementType.Paragraph)]
-        [DefaultDisplayType(DisplayType.Text)]
+        [UIHint(nameof(ContentType), "", ElementType.Paragraph)]
+        [DisplayFormat(DataFormatString = "Text")]
         [DefaultValue("Times New Roman")]
         public string FontFamily { get; set; }
 
         /// <summary>
         /// Font size in pt
         /// </summary>
-        [ConditionalDisplay(nameof(ContentType), ElementType.Paragraph)]
+        [UIHint(nameof(ContentType), "", ElementType.Paragraph)]
         [DefaultValue(11)]
         public int FontSize { get; set; }
 
         /// <summary>
         /// Font style
         /// </summary>
-        [ConditionalDisplay(nameof(ContentType), ElementType.Paragraph)]
+        [UIHint(nameof(ContentType), "", ElementType.Paragraph)]
         [DefaultValue(FontStyleEnum.Regular)]
         public FontStyleEnum FontStyle { get; set; }
 
         /// <summary>
         /// Space between lines
         /// </summary>
-        [ConditionalDisplay(nameof(ContentType), ElementType.Paragraph)]
+        [UIHint(nameof(ContentType), "", ElementType.Paragraph)]
         [DefaultValue(14)]
         public int LineSpacingInPt { get; set; }
 
 
-        [ConditionalDisplay(nameof(ContentType), ElementType.Paragraph)]
+        [UIHint(nameof(ContentType), "", ElementType.Paragraph)]
         [DefaultValue(ParagraphAlignmentEnum.Left)]
         [DisplayName("Alignment")]
         public ParagraphAlignmentEnum ParagraphAlignment { get; set; }
 
-        [ConditionalDisplay(nameof(ContentType), ElementType.Image)]
+        [UIHint(nameof(ContentType), "", ElementType.Image)]
         [DefaultValue(ImageAlignmentEnum.Left)]
         [DisplayName("Alignment")]
         public ImageAlignmentEnum ImageAlignment { get; set; }
@@ -170,14 +169,14 @@ namespace Frends.Community.PDFWriter
         /// <summary>
         /// Amount of space added above this element in pt
         /// </summary>
-        [ConditionalDisplay(nameof(ContentType), ElementType.Image, ElementType.Paragraph)]
+        [UIHint(nameof(ContentType), "", ElementType.Image, ElementType.Paragraph)]
         [DefaultValue(8)]
         public int SpacingBeforeInPt { get; set; }
 
         /// <summary>
         /// Amount of space added after this element in pt
         /// </summary>
-        [ConditionalDisplay(nameof(ContentType), ElementType.Image, ElementType.Paragraph)]
+        [UIHint(nameof(ContentType), "", ElementType.Image, ElementType.Paragraph)]
         [DefaultValue(0)]
         public int SpacingAfterInPt { get; set; }
 
@@ -195,13 +194,13 @@ namespace Frends.Community.PDFWriter
         /// <summary>
         /// This needs to be of format domain\username
         /// </summary>
-        [ConditionalDisplay(nameof(UseGivenCredentials), true)]
-        [DefaultDisplayType(DisplayType.Text)]
+        [UIHint(nameof(UseGivenCredentials), "", true)]
+        [DisplayFormat(DataFormatString = "Text")]
         [DefaultValue(@"domain\username")]
         public string UserName { get; set; }
 
         [PasswordPropertyText]
-        [ConditionalDisplay(nameof(UseGivenCredentials), true)]
+        [UIHint(nameof(UseGivenCredentials), "", true)]
         public string Password { get; set; }
 
         /// <summary>
