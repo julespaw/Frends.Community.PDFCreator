@@ -1,11 +1,11 @@
-﻿using Frends.Tasks.Attributes;
-using MigraDoc.DocumentObjectModel;
+﻿using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Shapes;
 using MigraDoc.Rendering;
 using PdfSharp.Pdf;
 using SimpleImpersonation;
 using System;
 using System.IO;
+using System.ComponentModel;
 
 #pragma warning disable 1591
 
@@ -22,10 +22,10 @@ namespace Frends.Community.PDFWriter
         /// <param name="content"></param>
         /// <param name="options"></param>
         /// <returns>Object { bool Success, string FileName }</returns>
-        public static Output CreatePdf([CustomDisplay(DisplayOption.Tab)]FileProperties outputFile,
-            [CustomDisplay(DisplayOption.Tab)]DocumentSettings documentSettings,
-            [CustomDisplay(DisplayOption.Tab)]DocumentContent content,
-            [CustomDisplay(DisplayOption.Tab)]Options options)
+        public static Output CreatePdf([PropertyTab]FileProperties outputFile,
+            [PropertyTab]DocumentSettings documentSettings,
+            [PropertyTab]DocumentContent content,
+            [PropertyTab]Options options)
         {
             try
             {

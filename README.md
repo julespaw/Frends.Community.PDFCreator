@@ -143,3 +143,4 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 | 1.3.0 | Changed Frends.Task.Attributes from 1.2.1 to 1.2.0 because of a bug in the newer version |
 | 1.4.0 | Changed target .net framework to 4.5.2 |
 | 1.5.0 | Changed Unicode default value to true |
+| 1.6.0 | System.ComponentModel is now used instead of Frends.Tasks.Attributes |
