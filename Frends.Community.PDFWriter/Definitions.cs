@@ -40,9 +40,7 @@ namespace Frends.Community.PDFWriter
         /// </summary>
         [DefaultValue(true)]
         public bool Unicode { get; set; }
-
     }
-
 
     public class DocumentSettings
     {
