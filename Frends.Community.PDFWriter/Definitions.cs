@@ -58,12 +58,6 @@ namespace Frends.Community.PDFWriter
         [DisplayFormat(DataFormatString = "Text")]
         public string Author { get; set; }
 
-
-        /// <summary>
-        /// PDF file content
-        /// </summary>
-        //public PageProperties[] Pages { get; set; }
-
         /// <summary>
         /// Document page size
         /// </summary>
