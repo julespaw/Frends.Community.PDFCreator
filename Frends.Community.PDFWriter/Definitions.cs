@@ -7,11 +7,11 @@ namespace Frends.Community.PDFWriter
     public enum FileExistsActionEnum { Error, Overwrite, Rename };
     public enum PageSizeEnum { A0, A1, A2, A3, A4, A5, A6, B5, Ledger, Legal, Letter };
     public enum PageOrientationEnum { Portrait, Landscape };
-    public enum ElementType { Paragraph, Image, PageBreak };
+    public enum ElementType { Paragraph, Image, PageBreak, Header, Footer };
     public enum ParagraphAlignmentEnum { Left, Center, Justify, Right };
     public enum ImageAlignmentEnum { Left, Center, Right };
-
     public enum FontStyleEnum { Regular, Bold, Italic, BoldItalic, Underline };
+    public enum HeaderFooterStyleEnum { Text, TextPagenum, LogoText, LogoTextPagenum };
 
     public class FileProperties
     {
@@ -108,20 +108,20 @@ namespace Frends.Community.PDFWriter
         /// <summary>
         /// Full path to image
         /// </summary>
-        [UIHint(nameof(ContentType), "", ElementType.Image)]
+        [UIHint(nameof(ContentType), "", ElementType.Image, ElementType.Header, ElementType.Footer)]
         public string ImagePath { get; set; }
 
         /// <summary>
         /// Text written to document
         /// </summary>
-        [UIHint(nameof(ContentType), "", ElementType.Paragraph)]
+        [UIHint(nameof(ContentType), "", ElementType.Paragraph, ElementType.Header, ElementType.Footer)]
         [DisplayFormat(DataFormatString = "Expression")]
         public string Text { get; set; }
 
         /// <summary>
         /// Font family name
         /// </summary>
-        [UIHint(nameof(ContentType), "", ElementType.Paragraph)]
+        [UIHint(nameof(ContentType), "", ElementType.Paragraph, ElementType.Header, ElementType.Footer)]
         [DisplayFormat(DataFormatString = "Text")]
         [DefaultValue("Times New Roman")]
         public string FontFamily { get; set; }
@@ -129,26 +129,26 @@ namespace Frends.Community.PDFWriter
         /// <summary>
         /// Font size in pt
         /// </summary>
-        [UIHint(nameof(ContentType), "", ElementType.Paragraph)]
+        [UIHint(nameof(ContentType), "", ElementType.Paragraph, ElementType.Header, ElementType.Footer)]
         [DefaultValue(11)]
         public int FontSize { get; set; }
 
         /// <summary>
         /// Font style
         /// </summary>
-        [UIHint(nameof(ContentType), "", ElementType.Paragraph)]
+        [UIHint(nameof(ContentType), "", ElementType.Paragraph, ElementType.Header, ElementType.Footer)]
         [DefaultValue(FontStyleEnum.Regular)]
         public FontStyleEnum FontStyle { get; set; }
 
         /// <summary>
         /// Space between lines
         /// </summary>
-        [UIHint(nameof(ContentType), "", ElementType.Paragraph)]
+        [UIHint(nameof(ContentType), "", ElementType.Paragraph, ElementType.Header, ElementType.Footer)]
         [DefaultValue(14)]
         public int LineSpacingInPt { get; set; }
 
 
-        [UIHint(nameof(ContentType), "", ElementType.Paragraph)]
+        [UIHint(nameof(ContentType), "", ElementType.Paragraph, ElementType.Header, ElementType.Footer)]
         [DefaultValue(ParagraphAlignmentEnum.Left)]
         [DisplayName("Alignment")]
         public ParagraphAlignmentEnum ParagraphAlignment { get; set; }
@@ -161,17 +161,37 @@ namespace Frends.Community.PDFWriter
         /// <summary>
         /// Amount of space added above this element in pt
         /// </summary>
-        [UIHint(nameof(ContentType), "", ElementType.Image, ElementType.Paragraph)]
+        [UIHint(nameof(ContentType), "", ElementType.Image, ElementType.Paragraph, ElementType.Header, ElementType.Footer)]
         [DefaultValue(8)]
         public int SpacingBeforeInPt { get; set; }
 
         /// <summary>
         /// Amount of space added after this element in pt
         /// </summary>
-        [UIHint(nameof(ContentType), "", ElementType.Image, ElementType.Paragraph)]
+        [UIHint(nameof(ContentType), "", ElementType.Image, ElementType.Paragraph, ElementType.Header, ElementType.Footer)]
         [DefaultValue(0)]
         public int SpacingAfterInPt { get; set; }
 
+        /// <summary>
+        /// Header or footer type: only text, or additional graphics and/or pagenumbers
+        /// </summary>
+        [UIHint(nameof(ContentType), "", ElementType.Header, ElementType.Footer)]
+        [DefaultValue(HeaderFooterStyleEnum.Text)]
+        public HeaderFooterStyleEnum HeaderFooterStyle { get; set; }
+
+        /// <summary>
+        /// Width of header's lower (or footer's upper) border line in pt
+        /// </summary>
+        [UIHint(nameof(ContentType), "", ElementType.Header, ElementType.Footer)]
+        [DefaultValue(0.0)]
+        public double BorderWidthInPt { get; set; }
+
+        /// <summary>
+        /// Height of the header/footer graphics in cm. Image's aspect ratio is preserved when scaling
+        /// </summary>
+        [UIHint(nameof(ContentType), "", ElementType.Header, ElementType.Footer)]
+        [DefaultValue(2.5)]
+        public double ImageHeightInCm { get; set; }
     }
 
     public class Options
