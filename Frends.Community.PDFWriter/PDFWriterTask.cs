@@ -32,9 +32,13 @@ namespace Frends.Community.PDFWriter
             {
                 var document = new Document();
                 if (!string.IsNullOrWhiteSpace(documentSettings.Title))
+                {
                     document.Info.Title = documentSettings.Title;
+                }
                 if (!string.IsNullOrWhiteSpace(documentSettings.Author))
+                {
                     document.Info.Author = documentSettings.Author;
+                }
 
                 // Get the selected page size
                 Unit width, height;
@@ -192,7 +196,9 @@ namespace Frends.Community.PDFWriter
             // if actual image size is larger than PageWidth - margins, set image width as page width - margins
             Unit actualPageContentWidth = new Unit((pageWidth.Inch - section.PageSetup.LeftMargin.Inch - section.PageSetup.RightMargin.Inch), UnitType.Inch);
             if (originalImageWidthInches > actualPageContentWidth)
-                image.Width = actualPageContentWidth;
+            {
+                image.Width = actualPageContentWidth; 
+            }
             image.LockAspectRatio = true;
             image.Left = pageContent.ImageAlignment.ConvertEnum<ShapePosition>();
         }
@@ -201,7 +207,9 @@ namespace Frends.Community.PDFWriter
         {
             // skip if text content if empty
             if (string.IsNullOrWhiteSpace(pageContent.Text))
+            {
                 return;
+            }
 
             var paragraph = section.AddParagraph();
             paragraph.Style = style.Name;
@@ -239,7 +247,9 @@ namespace Frends.Community.PDFWriter
         {
             // skip if text content if empty
             if (string.IsNullOrWhiteSpace(pageContent.Text))
+            {
                 return;
+            }
 
             Table table;
 
@@ -330,8 +340,10 @@ namespace Frends.Community.PDFWriter
         /// <param name="row"></param>
         private static void FormatHeaderFooterLogo(PageContentElement pageContent, Row row)
         {
-            if (string.IsNullOrWhiteSpace(pageContent.ImagePath))
-                return;
+            if (string.IsNullOrWhiteSpace(pageContent.ImagePath) || !File.Exists(pageContent.ImagePath))
+            {
+                throw new FileNotFoundException($"Path to header graphics was empty or the file does not exist.");
+            }
 
             var logo = row.Cells[0].AddImage(pageContent.ImagePath);
             logo.Height = new Unit(pageContent.ImageHeightInCm, UnitType.Centimeter);

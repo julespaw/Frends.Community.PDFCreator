@@ -23,7 +23,9 @@ namespace Frends.Community.PDFWriter.Tests
             _destinationFullPath = Path.Combine(_folder, _fileName);
 
             if (!Directory.Exists(_folder))
+            {
                 Directory.CreateDirectory(_folder);
+            }
 
             _fileProperties = new FileProperties { Directory = _folder, FileName = _fileName, FileExistsAction = FileExistsActionEnum.Error, Unicode = true };
             _docSettings = new DocumentSettings { MarginBottomInCm = 2, MarginLeftInCm = 2.5, MarginRightInCm = 2.5, MarginTopInCm = 5, Orientation = PageOrientationEnum.Portrait, Size = PageSizeEnum.A4 };
@@ -127,6 +129,19 @@ Espoo, 1.10.2019";
 
             Assert.IsTrue(File.Exists(_destinationFullPath));
             Assert.IsTrue(result.Success);
+        }
+
+        [Test]
+        public void WritePdf_LogoNotFound()
+        {
+            _fileProperties.FileExistsAction = FileExistsActionEnum.Overwrite;
+
+            var logoPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Files\no_such_logo.png");
+            var header = new PageContentElement { ContentType = ElementType.Header, FontFamily = "Times New Roman", FontSize = 8, FontStyle = FontStyleEnum.Regular, LineSpacingInPt = 11, ParagraphAlignment = ParagraphAlignmentEnum.Right, SpacingAfterInPt = 0, SpacingBeforeInPt = 8, ImagePath = logoPath, HeaderFooterStyle = HeaderFooterStyleEnum.LogoText, BorderWidthInPt = 0.5, ImageHeightInCm = 0.5 };
+            header.Text = @"Company, Inc. Official Document";
+
+            var result = Assert.Throws<FileNotFoundException>(() => PDFWriterTask.CreatePdf(_fileProperties, _docSettings, new DocumentContent { Contents = new[] { header } }, _options));
+            Assert.IsFalse(File.Exists(_destinationFullPath));
         }
     }
 }
