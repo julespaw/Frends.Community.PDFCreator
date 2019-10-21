@@ -6,6 +6,7 @@ using SimpleImpersonation;
 using System;
 using System.IO;
 using System.ComponentModel;
+using MigraDoc.DocumentObjectModel.Tables;
 
 #pragma warning disable 1591
 
@@ -31,9 +32,13 @@ namespace Frends.Community.PDFWriter
             {
                 var document = new Document();
                 if (!string.IsNullOrWhiteSpace(documentSettings.Title))
+                {
                     document.Info.Title = documentSettings.Title;
+                }
                 if (!string.IsNullOrWhiteSpace(documentSettings.Author))
+                {
                     document.Info.Author = documentSettings.Author;
+                }
 
                 // Get the selected page size
                 Unit width, height;
@@ -57,6 +62,16 @@ namespace Frends.Community.PDFWriter
                         case ElementType.PageBreak:
                             section = document.AddSection();
                             SetupPage(section.PageSetup, width, height, documentSettings);
+                            break;
+                        case ElementType.Header:
+                            SetFont(style, pageElement);
+                            SetParagraphStyle(style, pageElement);
+                            AddHeaderFooterContent(section, pageElement, style, true);
+                            break;
+                        case ElementType.Footer:
+                            SetFont(style, pageElement);
+                            SetParagraphStyle(style, pageElement);
+                            AddHeaderFooterContent(section, pageElement, style, false);
                             break;
                         default:
                             SetFont(style, pageElement);
@@ -83,10 +98,12 @@ namespace Frends.Community.PDFWriter
                     fileNameIndex++;
                 }
                 // save document
-                var pdfRenderer = new PdfDocumentRenderer(outputFile.Unicode, PdfFontEmbedding.Always)
+
+                var pdfRenderer = new PdfDocumentRenderer(outputFile.Unicode)
                 {
                     Document = document
                 };
+                
                 pdfRenderer.RenderDocument();
 
                 if(!options.UseGivenCredentials)
@@ -153,7 +170,7 @@ namespace Frends.Community.PDFWriter
             style.ParagraphFormat.SpaceBefore = new Unit(pageContent.SpacingBeforeInPt, UnitType.Point);
             style.ParagraphFormat.SpaceAfter = new Unit(pageContent.SpacingAfterInPt, UnitType.Point);
         }
-
+        
         /// <summary>
         /// Adds an image to the page. Only PNG images are supported out of the box.
         /// </summary>
@@ -179,7 +196,9 @@ namespace Frends.Community.PDFWriter
             // if actual image size is larger than PageWidth - margins, set image width as page width - margins
             Unit actualPageContentWidth = new Unit((pageWidth.Inch - section.PageSetup.LeftMargin.Inch - section.PageSetup.RightMargin.Inch), UnitType.Inch);
             if (originalImageWidthInches > actualPageContentWidth)
-                image.Width = actualPageContentWidth;
+            {
+                image.Width = actualPageContentWidth; 
+            }
             image.LockAspectRatio = true;
             image.Left = pageContent.ImageAlignment.ConvertEnum<ShapePosition>();
         }
@@ -188,7 +207,9 @@ namespace Frends.Community.PDFWriter
         {
             // skip if text content if empty
             if (string.IsNullOrWhiteSpace(pageContent.Text))
+            {
                 return;
+            }
 
             var paragraph = section.AddParagraph();
             paragraph.Style = style.Name;
@@ -212,6 +233,140 @@ namespace Frends.Community.PDFWriter
                     paragraph.AddLineBreak();
                 }
             }
+        }
+
+        /// <summary>
+        /// Adds a header or a footer to the document. Header/footer size is optimized for A4 size, portrait oriented page.
+        /// Header/footer can have a logo field, text field, and page numbers.
+        /// </summary>
+        /// <param name="section"></param>
+        /// <param name="pageContent"></param>
+        /// <param name="style"></param>
+        /// <param name="isHeader"></param>
+        private static void AddHeaderFooterContent(Section section, PageContentElement pageContent, Style style, bool isHeader)
+        {
+            // skip if text content if empty
+            if (string.IsNullOrWhiteSpace(pageContent.Text))
+            {
+                return;
+            }
+
+            Table table;
+
+            if (isHeader)
+            {
+                table = section.Headers.Primary.AddTable();
+            }
+            else
+            {
+                table = section.Footers.Primary.AddTable();
+            }
+
+            Row row;
+
+            Paragraph textField;
+            Paragraph pagenumField;
+
+            switch (pageContent.HeaderFooterStyle)
+            {
+                case HeaderFooterStyleEnum.Text:
+                    table.AddColumn("16cm");
+
+                    row = table.AddRow();
+                    row.VerticalAlignment = VerticalAlignment.Center;
+
+                    textField = row.Cells[0].AddParagraph();
+                    break;
+                case HeaderFooterStyleEnum.TextPagenum:
+                    table.AddColumn("12cm");
+                    table.AddColumn("4cm");
+
+                    row = table.AddRow();
+                    row.VerticalAlignment = VerticalAlignment.Center;
+
+                    textField = row.Cells[0].AddParagraph();
+
+                    pagenumField = row.Cells[1].AddParagraph();
+                    FormatPagenumField(style, pagenumField);
+                    break;
+                case HeaderFooterStyleEnum.LogoText:
+                    table.AddColumn("5cm");
+                    table.AddColumn("11cm");
+
+                    row = table.AddRow();
+                    row.VerticalAlignment = VerticalAlignment.Center;
+
+                    FormatHeaderFooterLogo(pageContent, row);
+
+                    textField = row.Cells[1].AddParagraph();
+                    break;
+                case HeaderFooterStyleEnum.LogoTextPagenum:
+                    table.AddColumn("5cm");
+                    table.AddColumn("7cm");
+                    table.AddColumn("4cm");
+
+                    row = table.AddRow();
+                    row.VerticalAlignment = VerticalAlignment.Center;
+
+                    FormatHeaderFooterLogo(pageContent, row);
+
+                    textField = row.Cells[1].AddParagraph();
+
+                    pagenumField = row.Cells[2].AddParagraph();
+                    FormatPagenumField(style, pagenumField);
+                    break;
+                default:
+                    throw new Exception($"Cannot insert header without proper style choice.");
+            }
+
+            textField.Style = style.Name;
+            textField.Format.Font.Color = Colors.Black;
+            textField.AddText(pageContent.Text);
+
+            if (pageContent.BorderWidthInPt > 0 && isHeader)
+            {
+                table.Borders.Bottom.Width = new Unit(pageContent.BorderWidthInPt, UnitType.Point);
+            }
+            else if (pageContent.BorderWidthInPt > 0 && !isHeader)
+            {
+                table.Borders.Top.Width = new Unit(pageContent.BorderWidthInPt, UnitType.Point);
+            }
+        }
+
+        /// <summary>
+        /// Helper method to set styles for header/footer graphics.
+        /// </summary>
+        /// <param name="pageContent"></param>
+        /// <param name="row"></param>
+        private static void FormatHeaderFooterLogo(PageContentElement pageContent, Row row)
+        {
+            if (string.IsNullOrWhiteSpace(pageContent.ImagePath) || !File.Exists(pageContent.ImagePath))
+            {
+                throw new FileNotFoundException($"Path to header graphics was empty or the file does not exist.");
+            }
+
+            var logo = row.Cells[0].AddImage(pageContent.ImagePath);
+            logo.Height = new Unit(pageContent.ImageHeightInCm, UnitType.Centimeter);
+            logo.LockAspectRatio = true;
+            logo.Top = ShapePosition.Top;
+            logo.Left = ShapePosition.Left;
+        }
+
+        /// <summary>
+        /// Helper method to set styles for page numbers in header/footer.
+        /// Page numbers are always aligned to the right.
+        /// </summary>
+        /// <param name="style"></param>
+        /// <param name="pagenumField"></param>
+        private static void FormatPagenumField(Style style, Paragraph pagenumField)
+        {
+            pagenumField.Style = style.Name;
+            pagenumField.Format.Alignment = ParagraphAlignment.Right;
+            pagenumField.Format.Font.Color = Colors.Black;
+            pagenumField.AddPageField();
+            pagenumField.AddText(" (");
+            pagenumField.AddNumPagesField();
+            pagenumField.AddText(")");
         }
 
         private static void SetFont(Style style, PageContentElement textElement)

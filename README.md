@@ -10,8 +10,8 @@ Frends task for creating PDF documents
 - [Change Log](#change-log)
 
 # Installing
-You can install the task via FRENDS UI Task View or you can find the nuget package from the following nuget feed
-'Nuget feed coming at later date'
+You can install the task via FRENDS UI Task View or you can find the nuget package from the following nuget feed:
+https://www.myget.org/F/frends-community/api/v3/index.json.
 
 Tasks
 =====
@@ -52,7 +52,7 @@ Actual PDF document content
 
 | Property             | Type                 | Description                          | Example |
 | ---------------------| ---------------------| ------------------------------------ | ----- |
-| Content type | enum { Paragraph, Image, PageBreak } | The type on content added to PDF document | Paragraph |
+| Content type | enum { Paragraph, Image, PageBreak, Header, Footer } | The type on content added to PDF document | Paragraph |
 
 #### Paragraph
 
@@ -79,6 +79,28 @@ Actual PDF document content
 #### PageBreak
 
 Adds page break to PDF document.
+
+#### Header/Footer
+
+NB. Currently optimized for A4 sized pages in portrait orientation. Sizes of header columns are hard coded.
+
+Headers/footers support besides free text also placing a company logo, page numbers and bottom/top border respectively.
+
+| Property             | Type                 | Description                          | Example |
+| ---------------------| ---------------------| ------------------------------------ | ----- |
+| HeaderFooterStyle | enum { Text, TextPagenum, LogoText, LogoTextPagenum } | What the header/footer contains: only text, or page numbers and logo also | LogoTextPagenum |
+| Text | string | Text content to write in header/footer | 'This is example header.' |
+| Font Family | string | Font family to be used in this header/footer | Times New Roman |
+| Font Size | int | Header/footer font size (pt) | 8 |
+| Font Style | enum { Regular, Bold, Italic, BoldItalic, Underline } | Text formatting style | Regular |
+| Line Spacing | int | Spacing between lines. | 14 |
+| Paragraph Alignment | enum {Left, Center, Justify, Right } | Alignment of the header/footer text. | Left |
+| Spacing Before In Pt | int | Space added before header/footer text. | 8 |
+| Spacing After In Pt | int | Space added after header/footer text. | 0 |
+| Image Path | string | Full path to header/footer image file. Only support PNG. | c:\my_images\example_logo.png |
+| Image Height in cm | double | Height of header/footer image in cm. Aspect ratio is maintained. | 2.5 |
+| Border Width in pt | double | Width of header/footer bottom/top border line in pt. | 0.5 |
+
 
 ### Options
 
@@ -144,3 +166,4 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 | 1.4.0 | Changed target .net framework to 4.5.2 |
 | 1.5.0 | Changed Unicode default value to true |
 | 1.6.0 | System.ComponentModel is now used instead of Frends.Tasks.Attributes |
+| 1.7.0 | Add support for headers and footers. Update MigraDoc version. |
