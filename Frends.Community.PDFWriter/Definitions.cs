@@ -115,7 +115,7 @@ namespace Frends.Community.PDFWriter
         /// Text written to document
         /// </summary>
         [UIHint(nameof(ContentType), "", ElementType.Paragraph, ElementType.Header, ElementType.Footer)]
-        [DisplayFormat(DataFormatString = "Expression")]
+        [DisplayFormat(DataFormatString = "Text")]
         public string Text { get; set; }
 
         /// <summary>
