@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 #pragma warning disable 1591
 
@@ -7,7 +8,7 @@ namespace Frends.Community.PDFWriter
     public enum FileExistsActionEnum { Error, Overwrite, Rename };
     public enum PageSizeEnum { A0, A1, A2, A3, A4, A5, A6, B5, Ledger, Legal, Letter };
     public enum PageOrientationEnum { Portrait, Landscape };
-    public enum ElementType { Paragraph, Image, PageBreak, Header, Footer };
+    public enum ElementType { Paragraph, Image, PageBreak, Header, Footer, Table };
     public enum ParagraphAlignmentEnum { Left, Center, Justify, Right };
     public enum ImageAlignmentEnum { Left, Center, Right };
     public enum FontStyleEnum { Regular, Bold, Italic, BoldItalic, Underline };
@@ -192,6 +193,12 @@ namespace Frends.Community.PDFWriter
         [UIHint(nameof(ContentType), "", ElementType.Header, ElementType.Footer)]
         [DefaultValue(2.5)]
         public double ImageHeightInCm { get; set; }
+
+
+        [UIHint(nameof(ContentType), "", ElementType.Table)]
+        [DisplayFormat(DataFormatString = "Json")]
+        [DefaultValue("{}")]
+        public string Table { get; set; }
     }
 
     public class Options
@@ -228,5 +235,38 @@ namespace Frends.Community.PDFWriter
         public bool Success { get; set; }
 
         public string FileName { get; set; }
+    }
+
+    
+    public enum TableTypeEnum { Table, Header, Footer };
+    public enum TableColumnType { Text, Image, PageNum };
+    public enum TableBorderStyle { None, Top, Bottom, All };
+
+    public class TableColumnDefinition
+    {
+        public string Name { get; set; }
+        public double WidthInCm { get; set; }
+        public double HeightInCm { get; set; }
+        public TableColumnType Type { get; set; }
+    }
+
+    public class TableStyle
+    {
+        public string FontFamily { get; set; }
+        public double FontSizeInPt { get; set; }
+        public FontStyleEnum FontStyle { get; set; }
+        public double LineSpacingInPt { get; set; }
+        public double SpacingBeforeInPt { get; set; }
+        public double SpacingAfterInPt { get; set; }
+        public double BorderWidthInPt { get; set; }
+        public TableBorderStyle BorderStyle { get; set; }
+    }
+    public class TableDefinition
+    {
+        public bool HasHeaderRow { get; set; }
+        public TableTypeEnum TableType { get; set; }
+        public TableStyle StyleSettings { get; set; }
+        public List<TableColumnDefinition> Columns { get; set; }
+        public List<Dictionary<string, string>> RowData { get; set; }
     }
 }

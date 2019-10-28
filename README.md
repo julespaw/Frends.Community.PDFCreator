@@ -82,7 +82,7 @@ Adds page break to PDF document.
 
 #### Header/Footer
 
-NB. Currently optimized for A4 sized pages in portrait orientation. Sizes of header columns are hard coded.
+NB. Currently optimized for A4 sized pages in portrait orientation. Sizes of header columns are hard coded. For custom sized columns, please use the Table element.
 
 Headers/footers support besides free text also placing a company logo, page numbers and bottom/top border respectively.
 
@@ -100,6 +100,14 @@ Headers/footers support besides free text also placing a company logo, page numb
 | Image Path | string | Full path to header/footer image file. Only support PNG. | c:\my_images\example_logo.png |
 | Image Height in cm | double | Height of header/footer image in cm. Aspect ratio is maintained. | 2.5 |
 | Border Width in pt | double | Width of header/footer bottom/top border line in pt. | 0.5 |
+
+#### Table
+
+Add a table to a page. A table can be a content element, a header or a footer. Tables support besides text also images. Various style choices are available, though defined style will be applied to all cells.
+
+| Property             | Type                 | Description                          | Example |
+| ---------------------| ---------------------| ------------------------------------ | ----- |
+| Table | string | JSON representation of a table | see sample JSON under `Frends.Community.PDFWriter.Tests\Files\ContentDefinition.json` |
 
 
 ### Options
@@ -167,3 +175,4 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 | 1.5.0 | Changed Unicode default value to true |
 | 1.6.0 | System.ComponentModel is now used instead of Frends.Tasks.Attributes |
 | 1.7.0 | Add support for headers and footers. Update MigraDoc version. |
+| 1.8.0 | Add support for tables. |
