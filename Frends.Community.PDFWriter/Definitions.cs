@@ -184,7 +184,7 @@ namespace Frends.Community.PDFWriter
         /// Width of header's lower (or footer's upper) border line in pt
         /// </summary>
         [UIHint(nameof(ContentType), "", ElementType.Header, ElementType.Footer)]
-        [DefaultValue(0.0)]
+        [DefaultValue("0.0")]
         public double BorderWidthInPt { get; set; }
 
         /// <summary>
