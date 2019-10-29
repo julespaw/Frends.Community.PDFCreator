@@ -9,7 +9,7 @@
     <description>Task for creating PDF files</description>
     <summary />
     <dependencies>
-      <dependency id="PDFsharp-MigraDoc-gdi" version="1.50.5147" />
+      <dependency id="PDFsharp-MigraDoc-GDI" version="1.50.5147" />
       <dependency id="SimpleImpersonation" version="2.0.1" />
     </dependencies>
     <frameworkAssemblies>
