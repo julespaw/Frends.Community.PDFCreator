@@ -134,5 +134,14 @@ with some tab
             var result = Assert.Throws<FileNotFoundException>(() => CallCreatePdf(new PageContentElement[] { header }));
             Assert.IsFalse(File.Exists(_destinationFullPath));
         }
+        
+        [Test]
+        public void WritePdf_TableWidthTooLarge()
+        {
+            var tooWideTable = @"{ ""HasHeaderRow"": true, ""TableType"": ""Table"", ""Columns"": [ { ""Name"": ""Sarake 1"", ""WidthInCm"": 21, ""HeightInCm"": 0, ""Type"": ""Text"" } ], ""RowData"": [] }";
+            var table1 = new PageContentElement { ContentType = ElementType.Table, Table = tooWideTable };
+            var result1 = Assert.Throws<Exception>(() => CallCreatePdf(new PageContentElement[] { table1 }));
+            Assert.IsFalse(File.Exists(_destinationFullPath));
+        }
     }
 }

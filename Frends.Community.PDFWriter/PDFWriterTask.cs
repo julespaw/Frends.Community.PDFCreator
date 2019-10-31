@@ -77,7 +77,7 @@ namespace Frends.Community.PDFWriter
                             AddHeaderFooterContent(section, pageElement, style, false);
                             break;
                         case ElementType.Table:
-                            AddTable(section, pageElement);
+                            AddTable(section, pageElement, width);
                             break;
                         default:
                             SetFont(style, pageElement);
@@ -340,7 +340,7 @@ namespace Frends.Community.PDFWriter
         }
 
 
-        private static void AddTable(Section section, PageContentElement pageContent)
+        private static void AddTable(Section section, PageContentElement pageContent, Unit pageWidth)
         {
             TableDefinition tableData = JsonConvert.DeserializeObject<TableDefinition>(pageContent.Table);
 
@@ -359,9 +359,19 @@ namespace Frends.Community.PDFWriter
                     break;
             }
 
+            Unit tableWidth = new Unit(0, UnitType.Centimeter);
+            Unit actualPageContentWidth = new Unit((pageWidth.Centimeter - section.PageSetup.LeftMargin.Centimeter - section.PageSetup.RightMargin.Centimeter), UnitType.Centimeter);
+
             foreach (var column in tableData.Columns)
             {
-                table.AddColumn(column.WidthInCm.ToString() + "cm");
+                Unit columnWidth = new Unit(column.WidthInCm, UnitType.Centimeter);
+                tableWidth += columnWidth;
+                if (tableWidth > actualPageContentWidth)
+                {
+                    throw new Exception($"Page allows table to be {actualPageContentWidth.Centimeter} cm wide. Provided table's width is larger than that, {tableWidth.Centimeter} cm.");
+                }
+
+                table.AddColumn(columnWidth);
             }
             
 
