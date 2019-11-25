@@ -7,6 +7,9 @@ using System;
 using System.IO;
 using System.ComponentModel;
 using MigraDoc.DocumentObjectModel.Tables;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using System.Linq;
 
 #pragma warning disable 1591
 
@@ -72,6 +75,9 @@ namespace Frends.Community.PDFWriter
                             SetFont(style, pageElement);
                             SetParagraphStyle(style, pageElement);
                             AddHeaderFooterContent(section, pageElement, style, false);
+                            break;
+                        case ElementType.Table:
+                            AddTable(section, pageElement, width);
                             break;
                         default:
                             SetFont(style, pageElement);
@@ -333,6 +339,146 @@ namespace Frends.Community.PDFWriter
             }
         }
 
+
+        private static void AddTable(Section section, PageContentElement pageContent, Unit pageWidth)
+        {
+            TableDefinition tableData = JsonConvert.DeserializeObject<TableDefinition>(pageContent.Table);
+
+            Table table;
+
+            switch (tableData.TableType)
+            {
+                case TableTypeEnum.Header:
+                    table = section.Headers.Primary.AddTable();
+                    break;
+                case TableTypeEnum.Footer:
+                    table = section.Footers.Primary.AddTable();
+                    break;
+                default:
+                    table = section.AddTable();
+                    break;
+            }
+
+            Unit tableWidth = new Unit(0, UnitType.Centimeter);
+            Unit actualPageContentWidth = new Unit((pageWidth.Centimeter - section.PageSetup.LeftMargin.Centimeter - section.PageSetup.RightMargin.Centimeter), UnitType.Centimeter);
+
+            foreach (var column in tableData.Columns)
+            {
+                Unit columnWidth = new Unit(column.WidthInCm, UnitType.Centimeter);
+                tableWidth += columnWidth;
+                if (tableWidth > actualPageContentWidth)
+                {
+                    throw new Exception($"Page allows table to be {actualPageContentWidth.Centimeter} cm wide. Provided table's width is larger than that, {tableWidth.Centimeter} cm.");
+                }
+
+                table.AddColumn(columnWidth);
+            }
+            
+
+            if (tableData.HasHeaderRow)
+            {
+                var columnHeaders = tableData.Columns.Select(column => column.Name).ToList();
+                var headerColumnDefinitions = new List<TableColumnDefinition>();
+                for (int i = 0; i < columnHeaders.Count; i++)
+                {
+                    headerColumnDefinitions.Add(new TableColumnDefinition { Type = TableColumnType.Text });
+                }
+                ProcessRow(table, headerColumnDefinitions, columnHeaders, tableData.StyleSettings);
+            }
+
+            foreach (var dataRow in tableData.RowData)
+            {
+                var data = dataRow.Select(row => row.Value).ToList();
+                ProcessRow(table, tableData.Columns, data, tableData.StyleSettings);
+            }
+
+            if (tableData.StyleSettings.BorderWidthInPt > 0)
+            {
+                switch (tableData.StyleSettings.BorderStyle)
+                {
+                    case TableBorderStyle.Top:
+                        table.Borders.Top.Width = new Unit(tableData.StyleSettings.BorderWidthInPt, UnitType.Point);
+                        break;
+                    case TableBorderStyle.Bottom:
+                        table.Borders.Bottom.Width = new Unit(tableData.StyleSettings.BorderWidthInPt, UnitType.Point);
+                        break;
+                    case TableBorderStyle.All:
+                        table.Borders.Width = new Unit(tableData.StyleSettings.BorderWidthInPt, UnitType.Point);
+                        break;
+                    case TableBorderStyle.None:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private static void ProcessRow(Table table, List<TableColumnDefinition> columns, List<string> data, TableStyle style)
+        {
+            var row = table.AddRow();
+            row.VerticalAlignment = VerticalAlignment.Center;
+
+            for (int i = 0; i < data.Count; i++)
+            {
+                switch (columns[i].Type)
+                {
+                    case TableColumnType.Text:
+                        var textField = row.Cells[i].AddParagraph();
+                        SetParagraphStyle(textField, style);
+                        textField.AddText(data[i]);
+                        break;
+                    case TableColumnType.Image:
+                        if (string.IsNullOrWhiteSpace(data[i]) || !File.Exists(data[i]))
+                        {
+                            throw new FileNotFoundException($"Path to header graphics was empty or the file does not exist.");
+                        }
+
+                        var logo = row.Cells[i].AddImage(data[i]);
+                        logo.Height = new Unit(columns[i].HeightInCm, UnitType.Centimeter);
+                        logo.LockAspectRatio = true;
+                        logo.Top = ShapePosition.Top;
+                        logo.Left = ShapePosition.Left;
+                        break;
+                    case TableColumnType.PageNum:
+                        var pagenumField = row.Cells[i].AddParagraph();
+                        SetParagraphStyle(pagenumField, style);
+                        pagenumField.AddPageField();
+                        pagenumField.AddText(" (");
+                        pagenumField.AddNumPagesField();
+                        pagenumField.AddText(")");
+                        break;
+                }
+            }
+        }
+
+        private static void SetParagraphStyle(Paragraph pg, TableStyle style)
+        {
+            pg.Format.Font.Color = Colors.Black;
+            pg.Format.Font.Name = style.FontFamily;
+            pg.Format.Font.Size = new Unit(style.FontSizeInPt, UnitType.Point);
+            
+            switch (style.FontStyle)
+            {
+                case FontStyleEnum.Bold:
+                    pg.Format.Font.Bold = true;
+                    break;
+                case FontStyleEnum.Italic:
+                    pg.Format.Font.Italic = true;
+                    break;
+                case FontStyleEnum.BoldItalic:
+                    pg.Format.Font.Bold = true;
+                    pg.Format.Font.Italic = true;
+                    break;
+                case FontStyleEnum.Underline:
+                    pg.Format.Font.Underline = Underline.Single;
+                    break;
+            }
+
+            pg.Format.LineSpacing = new Unit(style.LineSpacingInPt, UnitType.Point);
+            pg.Format.SpaceBefore = new Unit(style.SpacingBeforeInPt, UnitType.Point);
+            pg.Format.SpaceAfter = new Unit(style.SpacingAfterInPt, UnitType.Point);
+        }
+
         /// <summary>
         /// Helper method to set styles for header/footer graphics.
         /// </summary>
@@ -392,4 +538,6 @@ namespace Frends.Community.PDFWriter
             }
         }
     }
+
+
 }
