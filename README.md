@@ -176,4 +176,4 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 | 1.6.0 | System.ComponentModel is now used instead of Frends.Tasks.Attributes |
 | 1.7.0 | Add support for headers and footers. Update MigraDoc version. |
 | 1.8.0 | Add support for tables. |
-| 1.8.1 | Task now support both SimpleImpersonation 2 and 3. |
+| 1.8.2 | Task now support SimpleImpersonation version 3. |

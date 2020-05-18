@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Frends.Community.PDFWriter</id>
-    <version>1.8.1</version>
+    <version>1.8.2</version>
     <title>Frends Community PDF Writer</title>
     <authors>HiQ Finland</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -10,7 +10,7 @@
     <summary />
     <dependencies>
       <dependency id="PDFsharp-MigraDoc-GDI" version="1.50.5147" />
-      <dependency id="SimpleImpersonation" version="2.0.1" />
+      <dependency id="SimpleImpersonation" version="3.0.0" />
     </dependencies>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System" targetFramework="" />
