@@ -53,8 +53,8 @@
     <Reference Include="PdfSharp.Charting-gdi, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
       <HintPath>..\packages\PDFsharp-MigraDoc-gdi.1.50.5147\lib\net20\PdfSharp.Charting-gdi.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleImpersonation, Version=2.0.1.27158, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleImpersonation.2.0.1\lib\net40-Client\SimpleImpersonation.dll</HintPath>
+    <Reference Include="SimpleImpersonation, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleImpersonation.3.0.0\lib\net45\SimpleImpersonation.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
