@@ -117,10 +117,7 @@ namespace Frends.Community.PDFWriter
                 else
                 {
                     var domainAndUserName = GetDomainAndUserName(options.UserName);
-                    using(Impersonation.LogonUser(domainAndUserName[0], domainAndUserName[1], options.Password, LogonType.NewCredentials))
-                    {
-                        pdfRenderer.PdfDocument.Save(fileName);
-                    }
+                    Impersonation.RunAsUser(new UserCredentials(domainAndUserName[0], domainAndUserName[1], options.Password), LogonType.NewCredentials, () => pdfRenderer.PdfDocument.Save(fileName));
                 }
 
                 return new Output { Success = true, FileName = fileName };
