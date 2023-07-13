@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 #pragma warning disable 1591
 
-namespace Frends.Community.PDFWriter
+namespace Frends.Community.PDFCreator
 {
     public enum FileExistsActionEnum { Error, Overwrite, Rename };
     public enum PageSizeEnum { A0, A1, A2, A3, A4, A5, A6, B5, Ledger, Legal, Letter };
@@ -158,7 +158,7 @@ namespace Frends.Community.PDFWriter
         [DefaultValue(ImageAlignmentEnum.Left)]
         [DisplayName("Alignment")]
         public ImageAlignmentEnum ImageAlignment { get; set; }
-        
+
         /// <summary>
         /// Amount of space added above this element in pt
         /// </summary>
@@ -237,7 +237,7 @@ namespace Frends.Community.PDFWriter
         public string FileName { get; set; }
     }
 
-    
+
     public enum TableTypeEnum { Table, Header, Footer };
     public enum TableColumnType { Text, Image, PageNum };
     public enum TableBorderStyle { None, Top, Bottom, All };

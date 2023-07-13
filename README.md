@@ -1,4 +1,4 @@
-# Frends.Community.PDFWriter
+# Frends.Community.PDFCreator
 Frends task for creating PDF documents
 
 - [Installing](#installing)
@@ -107,7 +107,7 @@ Add a table to a page. A table can be a content element, a header or a footer. T
 
 | Property             | Type                 | Description                          | Example |
 | ---------------------| ---------------------| ------------------------------------ | ----- |
-| Table | string | JSON representation of a table | see sample JSON under `Frends.Community.PDFWriter.Tests\Files\ContentDefinition.json` |
+| Table | string | JSON representation of a table | see sample JSON under `Frends.Community.PDFCreator.Tests\Files\ContentDefinition.json` |
 
 
 ### Options
@@ -117,7 +117,7 @@ Add a table to a page. A table can be a content element, a header or a footer. T
 | Use Given Credentials | bool | If set, allows you to give the user credentials to use to write the PDF file on remote hosts. | true|
 | User Name | string | Domain and username. | 'mydomain\username' |
 | Password | string | Password of user. | |
-| Throw Error on failure | bool | True: Throws error if PDF writer Task fails. False: Returns object { Success = false } if Task fails. | true |
+| Throw Error on failure | bool | True: Throws error if PDF creator Task fails. False: Returns object { Success = false } if Task fails. | true |
 
 
 ### Result
@@ -136,21 +136,21 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 Clone a copy of the repo
 
-`git clone https://github.com/CommunityHiQ/Frends.Community.PDFWriter.git`
+`git clone https://github.com/CommunityHiQ/Frends.Community.PDFCreator.git`
 
 Restore dependencies
 
-`nuget restore frends.community.pdfwriter`
+`nuget restore frends.community.pdfcreator`
 
 Rebuild the project
 
 Run Tests with nunit3. Tests can be found under
 
-`Frends.Community.PDFWriter.Tests\bin\Release\Frends.Community.PDFWriter.Tests.dll`
+`Frends.Community.PDFCreator.Tests\bin\Release\Frends.Community.PDFCreator.Tests.dll`
 
 Create a nuget package
 
-`nuget pack nuspec/Frends.Community.PDFWriter.nuspec`
+`nuget pack nuspec/Frends.Community.PDFCreator.nuspec`
 
 # Contributing
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
@@ -167,9 +167,9 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 
 | Version             | Changes                 |
 | ---------------------| ---------------------|
-| 1.0.0 | Initial version of PDFWriter |
+| 1.0.0 | Initial version of PDFCreator |
 | 1.1.0 | Fixed bug where multiple whitespaces were trimmed. |
-| 1.2.0 | Renamed task class to PDFWriterTask, added ChangeLog to README |
+| 1.2.0 | Renamed task class to PDFCreatorTask, added ChangeLog to README |
 | 1.3.0 | Changed Frends.Task.Attributes from 1.2.1 to 1.2.0 because of a bug in the newer version |
 | 1.4.0 | Changed target .net framework to 4.5.2 |
 | 1.5.0 | Changed Unicode default value to true |

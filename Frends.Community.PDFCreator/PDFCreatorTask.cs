@@ -14,22 +14,22 @@ using System.Linq;
 #pragma warning disable 1591
 
 
-namespace Frends.Community.PDFWriter
+namespace Frends.Community.PDFCreator
 {
-    public class PDFWriterTask
+    public class PDFCreatorTask
     {
         /// <summary>
-        /// Created PDF document from given content. See https://github.com/CommunityHiQ/Frends.Community.PDFWriter
+        /// Created PDF document from given content. See https://github.com/CommunityHiQ/Frends.Community.PDFCreator
         /// </summary>
         /// <param name="outputFile"></param>
         /// <param name="documentSettings"></param>
         /// <param name="content"></param>
         /// <param name="options"></param>
         /// <returns>Object { bool Success, string FileName }</returns>
-        public static Output CreatePdf([PropertyTab]FileProperties outputFile,
-            [PropertyTab]DocumentSettings documentSettings,
-            [PropertyTab]DocumentContent content,
-            [PropertyTab]Options options)
+        public static Output CreatePdf([PropertyTab] FileProperties outputFile,
+            [PropertyTab] DocumentSettings documentSettings,
+            [PropertyTab] DocumentContent content,
+            [PropertyTab] Options options)
         {
             try
             {
@@ -109,10 +109,10 @@ namespace Frends.Community.PDFWriter
                 {
                     Document = document
                 };
-                
+
                 pdfRenderer.RenderDocument();
 
-                if(!options.UseGivenCredentials)
+                if (!options.UseGivenCredentials)
                     pdfRenderer.PdfDocument.Save(fileName);
                 else
                 {
@@ -173,7 +173,7 @@ namespace Frends.Community.PDFWriter
             style.ParagraphFormat.SpaceBefore = new Unit(pageContent.SpacingBeforeInPt, UnitType.Point);
             style.ParagraphFormat.SpaceAfter = new Unit(pageContent.SpacingAfterInPt, UnitType.Point);
         }
-        
+
         /// <summary>
         /// Adds an image to the page. Only PNG images are supported out of the box.
         /// </summary>
@@ -200,7 +200,7 @@ namespace Frends.Community.PDFWriter
             Unit actualPageContentWidth = new Unit((pageWidth.Inch - section.PageSetup.LeftMargin.Inch - section.PageSetup.RightMargin.Inch), UnitType.Inch);
             if (originalImageWidthInches > actualPageContentWidth)
             {
-                image.Width = actualPageContentWidth; 
+                image.Width = actualPageContentWidth;
             }
             image.LockAspectRatio = true;
             image.Left = pageContent.ImageAlignment.ConvertEnum<ShapePosition>();
@@ -220,9 +220,9 @@ namespace Frends.Community.PDFWriter
 
             //read text line by line
             string line;
-            using(var reader = new StringReader(pageContent.Text))
+            using (var reader = new StringReader(pageContent.Text))
             {
-                while((line = reader.ReadLine()) != null)
+                while ((line = reader.ReadLine()) != null)
                 {
                     // read text one char at a time, so that multiple whitespaces are added correctly
                     foreach (var c in line.ToCharArray())
@@ -370,7 +370,7 @@ namespace Frends.Community.PDFWriter
 
                 table.AddColumn(columnWidth);
             }
-            
+
 
             if (tableData.HasHeaderRow)
             {
@@ -453,7 +453,7 @@ namespace Frends.Community.PDFWriter
             pg.Format.Font.Color = Colors.Black;
             pg.Format.Font.Name = style.FontFamily;
             pg.Format.Font.Size = new Unit(style.FontSizeInPt, UnitType.Point);
-            
+
             switch (style.FontStyle)
             {
                 case FontStyleEnum.Bold:

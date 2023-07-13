@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frends.Community.PDFWriter", "Frends.Community.PDFWriter\Frends.Community.PDFWriter.csproj", "{3BFAD0C4-2DAC-46F9-B299-B6F9A92632D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frends.Community.PDFCreator", "Frends.Community.PDFCreator\Frends.Community.PDFCreator.csproj", "{3BFAD0C4-2DAC-46F9-B299-B6F9A92632D7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C89045E3-191C-4E18-B702-6357DCC55CE1}"
 	ProjectSection(SolutionItems) = preProject
-		nuspec\Frends.Community.PDFWriter.nuspec = nuspec\Frends.Community.PDFWriter.nuspec
-		Frends.Community.PDFWriter\FrendsTaskMetadata.json = Frends.Community.PDFWriter\FrendsTaskMetadata.json
+		nuspec\Frends.Community.PDFCreator.nuspec = nuspec\Frends.Community.PDFCreator.nuspec
+		Frends.Community.PDFCreator\FrendsTaskMetadata.json = Frends.Community.PDFCreator\FrendsTaskMetadata.json
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frends.Community.PDFWriter.Tests", "Frends.Community.PDFWriter.Tests\Frends.Community.PDFWriter.Tests.csproj", "{F1D94B8C-4E73-441D-B56D-BAC600050591}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frends.Community.PDFCreator.Tests", "Frends.Community.PDFCreator.Tests\Frends.Community.PDFCreator.Tests.csproj", "{F1D94B8C-4E73-441D-B56D-BAC600050591}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>Frends.Community.PDFWriter</id>
+    <id>Frends.Community.PDFCreator</id>
     <version>1.8.2</version>
-    <title>Frends Community PDF Writer</title>
+    <title>Frends Community PDF Creator</title>
     <authors>HiQ Finland</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Task for creating PDF files</description>
@@ -17,8 +17,8 @@
     </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="..\Frends.Community.PDFWriter\bin\release\Frends.Community.PDFWriter.dll" target="lib\net452\Frends.Community.PDFWriter.dll" />
-    <file src="..\Frends.Community.PDFWriter\bin\release\Frends.Community.PDFWriter.xml" target="lib\net452\Frends.Community.PDFWriter.xml" />
-    <file src="..\Frends.Community.PDFWriter\FrendsTaskMetadata.json" target="FrendsTaskMetadata.json"/>
+    <file src="..\Frends.Community.PDFCreator\bin\release\Frends.Community.PDFCreator.dll" target="lib\net452\Frends.Community.PDFCreator.dll" />
+    <file src="..\Frends.Community.PDFCreator\bin\release\Frends.Community.PDFCreator.xml" target="lib\net452\Frends.Community.PDFCreator.xml" />
+    <file src="..\Frends.Community.PDFCreator\FrendsTaskMetadata.json" target="FrendsTaskMetadata.json"/>
   </files>
 </package>

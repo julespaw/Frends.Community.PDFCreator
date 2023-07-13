@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Frends.Community.PDFWriter
+namespace Frends.Community.PDFCreator
 {
     static class Extensions
     {

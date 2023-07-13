@@ -9,9 +9,9 @@
     <ProjectGuid>{F1D94B8C-4E73-441D-B56D-BAC600050591}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Frends.Community.PDFWriter.Tests</RootNamespace>
-    <AssemblyName>Frends.Community.PDFWriter.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>Frends.Community.PDFCreator.Tests</RootNamespace>
+    <AssemblyName>Frends.Community.PDFCreator.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -51,7 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="WriterTests.cs" />
+    <Compile Include="CreatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -61,9 +61,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Frends.Community.PDFWriter\Frends.Community.PDFWriter.csproj">
+    <ProjectReference Include="..\Frends.Community.PDFCreator\Frends.Community.PDFCreator.csproj">
       <Project>{3bfad0c4-2dac-46f9-b299-b6f9a92632d7}</Project>
-      <Name>Frends.Community.PDFWriter</Name>
+      <Name>Frends.Community.PDFCreator</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace Frends.Community.PDFWriter.Tests
+namespace Frends.Community.PDFCreator.Tests
 {
     [TestFixture]
-    public class WriterTests
+    public class CreatorTests
     {
         private FileProperties _fileProperties;
         private DocumentSettings _docSettings;
@@ -17,7 +17,7 @@ namespace Frends.Community.PDFWriter.Tests
         private PageContentElement _title;
         private PageContentElement _paragraphContent;
         private PageContentElement _tableContent;
-        
+
         private Options _options;
 
         private string _destinationFullPath;
@@ -27,7 +27,7 @@ namespace Frends.Community.PDFWriter.Tests
         [SetUp]
         public void TestSetup()
         {
-            _folder = Path.Combine(Path.GetTempPath(), "pdfwriter_tests");
+            _folder = Path.Combine(Path.GetTempPath(), "pdfcreator_tests");
             _destinationFullPath = Path.Combine(_folder, _fileName);
 
             if (!Directory.Exists(_folder))
@@ -43,7 +43,7 @@ namespace Frends.Community.PDFWriter.Tests
             _footer = new PageContentElement { ContentType = ElementType.Footer, FontFamily = "Times New Roman", FontSize = 8, FontStyle = FontStyleEnum.Regular, LineSpacingInPt = 11, ParagraphAlignment = ParagraphAlignmentEnum.Center, SpacingAfterInPt = 0, SpacingBeforeInPt = 8, HeaderFooterStyle = HeaderFooterStyleEnum.TextPagenum, BorderWidthInPt = 0.0 };
             _title = new PageContentElement { ContentType = ElementType.Paragraph, FontFamily = "Times New Roman", FontSize = 16, FontStyle = FontStyleEnum.Bold, LineSpacingInPt = 11, ParagraphAlignment = ParagraphAlignmentEnum.Left, SpacingAfterInPt = 0, SpacingBeforeInPt = 8 };
             _paragraphContent = new PageContentElement { ContentType = ElementType.Paragraph, FontFamily = "Times New Roman", FontSize = 11, FontStyle = FontStyleEnum.Regular, LineSpacingInPt = 11, ParagraphAlignment = ParagraphAlignmentEnum.Left, SpacingAfterInPt = 0, SpacingBeforeInPt = 8 };
-            
+
             var tablePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Files\ContentDefinition.json");
             var tableDefinition = File.ReadAllText(tablePath);
             _tableContent = new PageContentElement { ContentType = ElementType.Table, Table = tableDefinition };
@@ -59,14 +59,14 @@ namespace Frends.Community.PDFWriter.Tests
 
         private Output CallCreatePdf(PageContentElement[] contents)
         {
-            return PDFWriterTask.CreatePdf(_fileProperties, _docSettings, new DocumentContent { Contents = contents }, _options);
+            return PDFCreatorTask.CreatePdf(_fileProperties, _docSettings, new DocumentContent { Contents = contents }, _options);
         }
 
         [Test]
         public void WritePDF()
         {
             _fileProperties.FileExistsAction = FileExistsActionEnum.Overwrite;
-            
+
             _header.Text = @"This is a header";
             _footer.Text = @"This is a footer";
             _title.Text = @"The Document Title";
@@ -134,7 +134,7 @@ with some tab
             var result = Assert.Throws<FileNotFoundException>(() => CallCreatePdf(new PageContentElement[] { header }));
             Assert.IsFalse(File.Exists(_destinationFullPath));
         }
-        
+
         [Test]
         public void WritePdf_TableWidthTooLarge()
         {
