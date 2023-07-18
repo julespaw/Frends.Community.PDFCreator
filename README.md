@@ -177,3 +177,4 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 | 1.7.0 | Add support for headers and footers. Update MigraDoc version. |
 | 1.8.0 | Add support for tables. |
 | 1.8.2 | Task now support SimpleImpersonation version 3. |
+| 1.8.3 | Changed target .net framework to 4.7.1 |
